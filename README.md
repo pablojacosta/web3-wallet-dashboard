@@ -1,69 +1,36 @@
-# Frontend Challenge
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Create a **React app** that demonstrates blockchain integration and state management using React Context or Zustand. Keep it clean, simple, and well-structured.
+## Getting Started
 
----
+First, run the development server:
 
-## Requirements
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-### Core Features:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-1. **Connect Wallet**: Enable wallet connection with RainbowKit, RabbyKit, or Reown.
-2. **Network Detection**: Ensure the app detects the wrong network (e.g., Sepolia) and allows switching chains.
-3. **Token Balances**:
-    - Fetch and display human-readable `DAI` (18 decimals) and `USDC` (6 decimals) balances.
-4. **Approve & Transfer**:
-    - Inputs for specifying approval or transfer amounts.
-    - Buttons for `APPROVE` and `TRANSFER` with validations and error messages (e.g., "Not enough funds").
-5. **Event Table**:
-    - Display transfer and approval events in a table with details (token, amount, sender, recipient, transaction hash).
-6. **Mint Tokens**:
-    - Add a `MINT` button to get test tokens.
-7. **Unit Tests**: Add unit tests to ensure functionality.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Bonus Features:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- **State Architecture**: Use a well-structured Zustand/Context store.
-- **E2E Tests**: Add end-to-end tests for key workflows with Cypress.
-- **UI/UX**:
-    - Custom styling or Material-UI.
-    - Responsive design with animations.
-    - Buttons with loading states.
+## Learn More
 
----
+To learn more about Next.js, take a look at the following resources:
 
-## Tech Stack
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- **Framework**: Next.js or Vite
-- **Routing**: React Router / Next router
-- **State Management**: Zustand / React Context
-- **Blockchain Libraries**: Viem / Wagmi
-- **Wallet Integration**: RainbowKit, RabbyKit, Web3Modal
-- **Code Quality**: Prettier, Linter
-- **Language**: TypeScript
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
----
+## Deploy on Vercel
 
-## Tools & Testnet Info
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- **Etherscan**: Inspect contracts and methods.
-- **Sepolia Testnet**:
-    - Faucet: [Alchemy](https://www.alchemy.com/faucets/ethereum-sepolia)
-    - ERC20 Contracts:
-        - `DAI`: `0x1D70D57ccD2798323232B2dD027B3aBcA5C00091`
-        - `USDC`: `0xC891481A0AaC630F4D89744ccD2C7D2C4215FD47`
-
----
-
-## Deliverables
-
-1. **Repo**: Clean and organized structure with routes and components with a concise and commit history
-2. **Docs**: A README explaining setup, key decisions, and usage.
-3. **Functionality**:
-    - Fetch balances and allowances.
-    - Approve, Transfer and Mint tokens.
-    - Display event logs in a table.
-
-Note: The commit history will also be taken into account as part of the challenge.
-
-Feel free to add your own creativity and ideas. Let’s see what you build!
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
