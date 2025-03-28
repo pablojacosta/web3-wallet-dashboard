@@ -9,6 +9,7 @@ import prettierConfig from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import nextPlugin from '@next/eslint-plugin-next';
 import globals from 'globals';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,7 @@ const eslintConfig = [
       'react-refresh': reactRefresh,
       import: fixupPluginRules(importPlugin),
       prettier: fixupPluginRules(prettierPlugin),
+      '@next/next': fixupPluginRules(nextPlugin),
     },
     languageOptions: {
       globals: {
