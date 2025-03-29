@@ -1,13 +1,4 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: 'standalone',
-  experimental: {
-    optimizePackageImports: ['@mui/icons-material', '@mui/material', 'date-fns', 'lodash'],
-  },
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-};
+/** @type {import('next').NextConfig} */
+const nextConfig = {};
 
 export default nextConfig;
