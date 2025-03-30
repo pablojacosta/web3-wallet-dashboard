@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { TokenEvent } from '~/types';
 
 interface EventStore {
@@ -7,15 +8,20 @@ interface EventStore {
   clearEvents: () => void;
 }
 
-const initialState = {
-  events: [],
-};
+const STORAGE_KEY = 'transaction-events-storage';
 
-export const useEventStore = create<EventStore>((set) => ({
-  ...initialState,
-  addEvent: (event) =>
-    set((state) => ({
-      events: [...state.events, event],
-    })),
-  clearEvents: () => set({ events: [] }),
-}));
+export const useEventStore = create<EventStore>()(
+  persist(
+    (set) => ({
+      events: [],
+      addEvent: (event) =>
+        set((state) => ({
+          events: [...state.events, event],
+        })),
+      clearEvents: () => set({ events: [] }),
+    }),
+    {
+      name: STORAGE_KEY,
+    },
+  ),
+);
