@@ -9,13 +9,6 @@ export interface WalletStore {
   reset: () => void;
 }
 
-export interface TokenInfo {
-  symbol: ETokenType;
-  address: string;
-  balance: bigint;
-  allowance: bigint;
-}
-
 export type ModalMessage = ESuccessMessage | EErrorMessage | '';
 
 export interface TokenEvent {
