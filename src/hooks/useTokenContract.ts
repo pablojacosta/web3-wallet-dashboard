@@ -87,8 +87,8 @@ export const useTokenContract = (token: ETokenType) => {
   const { isLoading: isTransferring } = useWaitForTransactionReceipt({ hash: transferHash });
   const { isLoading: isMinting } = useWaitForTransactionReceipt({ hash: mintHash });
 
-  const formattedBalance = balance ? formatUnits(balance, decimals ?? 0) : '0';
-  const formattedAllowance = allowance ? formatUnits(allowance, decimals ?? 0) : '0';
+  const formattedBalance = balance && decimals !== undefined ? formatUnits(balance, decimals) : '0';
+  const formattedAllowance = allowance && decimals !== undefined ? formatUnits(allowance, decimals) : '0';
 
   useEffect(() => {
     if (approveHash && !isApproving && validatedWalletAddress) {
