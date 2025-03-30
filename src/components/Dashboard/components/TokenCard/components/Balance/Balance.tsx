@@ -1,15 +1,14 @@
 import { Skeleton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface IQuotaAndAmountProps {
-  quota: string;
+interface IBalance {
   amount: string;
   isLoading: boolean;
 }
 
-export const QuotaAndAmount = ({ quota, amount, isLoading }: IQuotaAndAmountProps) => (
+export const Balance = ({ amount, isLoading }: IBalance) => (
   <StyledQuotaContainer>
-    <Typography>{quota}</Typography>
+    <Typography>Balance</Typography>
 
     {isLoading && <Skeleton width={50} height={32} />}
 

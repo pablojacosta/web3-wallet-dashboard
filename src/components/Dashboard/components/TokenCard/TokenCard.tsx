@@ -5,8 +5,8 @@ import { ETokenType, ETransactionType } from '~/enums';
 import { useTokenContract } from '~/hooks/useTokenContract';
 import { useWalletStore } from '~/store/useWalletStore';
 import { Allowance } from './components/Allowance';
+import { Balance } from './components/Balance';
 import { Mint } from './components/Mint';
-import { QuotaAndAmount } from './components/QuotaAndAmount';
 import { Transaction } from './components/Transaction';
 
 interface ITokenCardProps {
@@ -68,7 +68,7 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
         {token}
       </Typography>
 
-      <QuotaAndAmount quota='Balance' amount={formattedBalance} isLoading={isLoadingBalance} />
+      <Balance amount={formattedBalance} isLoading={isLoadingBalance} />
 
       <TransactionsContainer>
         <Transaction
