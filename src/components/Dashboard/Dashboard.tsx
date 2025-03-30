@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import { useAccount } from 'wagmi';
 import { ETokenType } from '~/enums';
 import { useWalletStore } from '~/store/useWalletStore';
+import { EventTable } from './components/EventTable/EventTable';
 import { Toggle } from './components/Toggle';
 import { TokenCard } from './components/TokenCard';
 
@@ -33,6 +34,8 @@ export const Dashboard = () => {
           <Toggle selectedToken={selectedToken} handleTokenChange={handleTokenChange} />
 
           <TokenCard token={selectedToken} />
+
+          <EventTable />
         </>
       )}
 
@@ -51,5 +54,8 @@ const StyledContainer = styled('div')({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
+  height: '100%',
   gap: '2rem',
+  overflowY: 'auto',
+  margin: '2rem auto',
 });

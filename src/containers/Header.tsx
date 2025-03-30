@@ -22,6 +22,10 @@ const StyledHeader = styled('header')(({ theme }) => ({
   backgroundColor: theme.palette.background.secondary,
   width: '100%',
   zIndex: zIndex.HEADER,
+  position: 'fixed',
+  top: '0',
+  left: '0',
+  borderBottom: theme.palette.border,
 }));
 
 const StyledTitle = styled('h1')(({ theme }) => ({

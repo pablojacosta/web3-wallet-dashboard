@@ -19,4 +19,7 @@ const FooterContainer = styled('footer')(({ theme }) => ({
   borderTop: theme.palette.border,
   width: '100%',
   color: theme.palette.text.secondary,
+  position: 'fixed',
+  bottom: '0',
+  left: '0',
 }));

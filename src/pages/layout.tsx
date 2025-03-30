@@ -1,5 +1,6 @@
 import { CssBaseline, styled } from '@mui/material';
 import { Footer, Header } from '~/containers';
+import { FOOTER_HEIGHT, HEADER_HEIGHT } from '~/utils';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -33,8 +34,10 @@ const MainContent = styled('div')({
   width: '100%',
   maxWidth: '100%',
   overflowX: 'hidden',
-  minHeight: '100%',
   margin: '0 auto',
+  paddingTop: `${HEADER_HEIGHT}rem`,
+  paddingBottom: `${FOOTER_HEIGHT}rem`,
+  minHeight: '100vh',
 });
 
 const NoScriptMessage = styled('noscript')(() => {
