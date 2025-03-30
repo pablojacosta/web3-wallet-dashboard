@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import { ErrorModal } from '~/components/ErrorModal';
+import { Modal } from '~/components/Modal';
 import { Providers } from '~/providers';
 import Layout from './layout';
 
@@ -8,7 +8,7 @@ const Home = ({ Component, pageProps }: AppProps) => {
     <Providers>
       <Layout>
         <Component {...pageProps} />
-        <ErrorModal />
+        <Modal />
       </Layout>
     </Providers>
   );

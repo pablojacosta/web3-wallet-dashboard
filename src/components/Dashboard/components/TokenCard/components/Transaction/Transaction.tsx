@@ -1,7 +1,7 @@
 import { Box, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ETransactionType } from '~/enums/transactionType';
-import { TransactionButton } from './components/TransactionButton';
+import { TransactionButton } from '~/components/Shared/TransactionButton';
+import { ETransactionType } from '~/enums';
 
 interface ITransactionProps {
   transactionType: ETransactionType;
@@ -38,6 +38,7 @@ export const Transaction = ({
           onChange={(e) => setAddress(e.target.value)}
           size='small'
           fullWidth
+          disabled={isTransacting}
         />
 
         <TextField label='Amount' value={amount} onChange={(e) => setAmount(e.target.value)} size='small' fullWidth />

@@ -1,6 +1,6 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ETokenType } from '~/enums/tokenType';
+import { ETokenType } from '~/enums';
 
 interface IToggleProps {
   selectedToken: ETokenType;

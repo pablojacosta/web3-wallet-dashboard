@@ -1,9 +1,25 @@
+import { useEffect } from 'react';
 import { erc20Abi, formatUnits, parseUnits } from 'viem';
-import { useReadContract, useTransaction, useWriteContract } from 'wagmi';
-import { ETokenType } from '~/enums/tokenType';
+import { useReadContract, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
+import { EErrorMessage, EMessageStatus, ESuccessMessage, ETokenType } from '~/enums';
 import { useModalStore } from '~/store/useModalStore';
 import { useWalletStore } from '~/store/useWalletStore';
 import { validateWalletAddress } from '~/utils/validation';
+import { useTransactionHandler } from './useTransactionHandler';
+
+const extendedErc20Abi = [
+  ...erc20Abi,
+  {
+    type: 'function',
+    name: 'mint',
+    stateMutability: 'nonpayable',
+    inputs: [
+      { name: 'to', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    outputs: [],
+  },
+];
 
 export const useTokenContract = (token: ETokenType) => {
   // TODO: use address constants from config file
@@ -13,10 +29,10 @@ export const useTokenContract = (token: ETokenType) => {
   } as const;
 
   const { address: walletAddress } = useWalletStore();
-  const { setShowErrorModal } = useModalStore();
+  const { executeTransaction } = useTransactionHandler();
+  const { setShowModal } = useModalStore();
 
   const address = TokenAddresses[token] as `0x${string}`;
-
   const validatedWalletAddress = validateWalletAddress(walletAddress);
 
   const isQueryEnabled = Boolean(validatedWalletAddress && address);
@@ -50,59 +66,113 @@ export const useTokenContract = (token: ETokenType) => {
     },
   });
 
-  const { writeContract: approve, data: approveData } = useWriteContract();
+  const { writeContract: approve, data: approveHash } = useWriteContract();
+  const { writeContract: transfer, data: transferHash } = useWriteContract();
+  const { writeContract: mint, data: mintHash } = useWriteContract();
 
-  const { writeContract: transfer, data: transferData } = useWriteContract();
-
-  const { isLoading: isApproving } = useTransaction({
-    hash: approveData,
-  });
-
-  const { isLoading: isTransferring } = useTransaction({
-    hash: transferData,
-  });
+  const { isLoading: isApproving } = useWaitForTransactionReceipt({ hash: approveHash });
+  const { isLoading: isTransferring } = useWaitForTransactionReceipt({ hash: transferHash });
+  const { isLoading: isMinting } = useWaitForTransactionReceipt({ hash: mintHash });
 
   const formattedBalance = balance ? formatUnits(balance, decimals ?? 0) : '0';
   const formattedAllowance = allowance ? formatUnits(allowance, decimals ?? 0) : '0';
 
+  useEffect(() => {
+    if (approveHash && !isApproving) {
+      setShowModal(true, ESuccessMessage.APPROVE, EMessageStatus.SUCCESS);
+
+      refetchAllowance();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [approveHash, isApproving]);
+
+  useEffect(() => {
+    if (transferHash && !isTransferring) {
+      setShowModal(true, ESuccessMessage.TRANSFER, EMessageStatus.SUCCESS);
+
+      refetchBalance();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transferHash, isTransferring]);
+
+  useEffect(() => {
+    if (mintHash && !isMinting) {
+      setShowModal(true, ESuccessMessage.MINT, EMessageStatus.SUCCESS);
+
+      refetchBalance();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mintHash, isMinting]);
+
   const safeApprove = (spender: string, amount: string) => {
     const validatedSpender = validateWalletAddress(spender);
+
     if (!validatedSpender) {
-      setShowErrorModal(true, 'Invalid spender address.');
+      setShowModal(true, EErrorMessage.INVALID_SPENDER, EMessageStatus.ERROR);
       return;
     }
 
-    try {
-      approve({
-        address,
-        abi: erc20Abi,
-        functionName: 'approve',
-        args: [validatedSpender, parseUnits(amount, decimals ?? 0)],
-      });
-    } catch (error) {
-      console.error('Approval failed:', error);
-      setShowErrorModal(true, 'Transaction failed. Please check the spender address.');
-    }
+    executeTransaction(
+      () =>
+        approve({
+          address,
+          abi: erc20Abi,
+          functionName: 'approve',
+          args: [validatedSpender, parseUnits(amount, decimals ?? 0)],
+        }),
+      refetchAllowance,
+    );
   };
 
-  const safeTransfer = async (to: string, amount: string) => {
-    const validatedTo = validateWalletAddress(to);
-    if (!validatedTo) {
-      setShowErrorModal(true, 'Invalid recipient address.');
+  const safeTransfer = (recipient: string, amount: string) => {
+    const validatedRecipient = validateWalletAddress(recipient);
+
+    if (!validatedRecipient) {
+      setShowModal(true, EErrorMessage.INVALID_RECIPIENT, EMessageStatus.ERROR);
       return;
     }
 
-    try {
-      transfer({
-        address,
-        abi: erc20Abi,
-        functionName: 'transfer',
-        args: [validatedTo, parseUnits(amount, decimals ?? 0)],
-      });
-    } catch (error) {
-      console.error('Transfer failed:', error);
-      setShowErrorModal(true, 'Transaction failed. Please check the recipient address.');
+    executeTransaction(
+      () =>
+        transfer({
+          address,
+          abi: erc20Abi,
+          functionName: 'transfer',
+          args: [validatedRecipient, parseUnits(amount, decimals ?? 0)],
+        }),
+      refetchBalance,
+    );
+  };
+
+  const safeMint = (recipient: string, amount: string) => {
+    const validatedRecipient = validateWalletAddress(recipient);
+    if (!validatedRecipient) {
+      setShowModal(true, EErrorMessage.INVALID_RECIPIENT, EMessageStatus.ERROR);
+      return;
     }
+
+    if (!amount) {
+      setShowModal(true, EErrorMessage.NO_MINT_AMOUNT, EMessageStatus.ERROR);
+      return;
+    }
+
+    const amountNumber = parseFloat(amount);
+
+    if (isNaN(amountNumber) || amountNumber <= 0) {
+      setShowModal(true, EErrorMessage.NO_VALID_AMOUNT, EMessageStatus.ERROR);
+      return;
+    }
+
+    executeTransaction(
+      () =>
+        mint({
+          address,
+          abi: extendedErc20Abi,
+          functionName: 'mint',
+          args: [validatedRecipient, parseUnits(amount, decimals ?? 0)],
+        }),
+      refetchBalance,
+    );
   };
 
   return {
@@ -113,8 +183,10 @@ export const useTokenContract = (token: ETokenType) => {
     formattedAllowance,
     approve: safeApprove,
     transfer: safeTransfer,
+    mint: safeMint,
     isApproving,
     isTransferring,
+    isMinting,
     refetchBalance,
     refetchAllowance,
     refetchDecimals,

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useAccount } from 'wagmi';
-import { ETokenType } from '~/enums/tokenType';
+import { ETokenType } from '~/enums';
 import { useWalletStore } from '~/store/useWalletStore';
 import { Toggle } from './components/Toggle';
 import { TokenCard } from './components/TokenCard';

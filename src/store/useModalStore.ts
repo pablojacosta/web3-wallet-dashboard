@@ -1,14 +1,18 @@
 import { create } from 'zustand';
+import { EMessageStatus } from '~/enums';
+import { ModalMessage } from '~/types';
 
-interface ModalState {
-  showErrorModal: boolean;
-  errorMessage: string;
-  setShowErrorModal: (show: boolean, message?: string) => void;
+interface ModalStore {
+  showModal: boolean;
+  message: ModalMessage;
+  messageStatus: EMessageStatus;
+  setShowModal: (show: boolean, message?: ModalMessage, status?: EMessageStatus) => void;
 }
 
-export const useModalStore = create<ModalState>((set) => ({
-  showErrorModal: false,
-  errorMessage: '',
-  setShowErrorModal: (show, message = 'Invalid Ethereum address.') =>
-    set({ showErrorModal: show, errorMessage: message }),
+export const useModalStore = create<ModalStore>((set) => ({
+  showModal: false,
+  message: '',
+  messageStatus: EMessageStatus.ERROR,
+  setShowModal: (show, message?: ModalMessage, status?: EMessageStatus) =>
+    set({ showModal: show, message, messageStatus: status }),
 }));

@@ -1,4 +1,4 @@
-import { ETokenType } from '~/enums/tokenType';
+import { EErrorMessage, ESuccessMessage, ETokenType } from '~/enums';
 
 export interface WalletStore {
   address: string | null;
@@ -15,3 +15,5 @@ export interface TokenInfo {
   balance: bigint;
   allowance: bigint;
 }
+
+export type ModalMessage = ESuccessMessage | EErrorMessage | '';

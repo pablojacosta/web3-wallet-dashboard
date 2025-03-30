@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ETokenType } from '~/enums/tokenType';
-import { ETransactionType } from '~/enums/transactionType';
+import { ETokenType, ETransactionType } from '~/enums';
 import { useTokenContract } from '~/hooks/useTokenContract';
+import { useWalletStore } from '~/store/useWalletStore';
+import { Mint } from './components/Mint';
 import { QuotaAndAmount } from './components/QuotaAndAmount';
 import { Transaction } from './components/Transaction';
 
@@ -12,15 +13,18 @@ interface ITokenCardProps {
 }
 
 export const TokenCard = ({ token }: ITokenCardProps) => {
-  const { transfer, approve, isTransferring, isApproving, formattedBalance, formattedAllowance } =
+  const { transfer, approve, mint, isTransferring, isApproving, isMinting, formattedBalance, formattedAllowance } =
     useTokenContract(token);
+  const { address: walletAddress } = useWalletStore();
   const [transferAmount, setTransferAmount] = useState('');
   const [recipient, setRecipient] = useState('');
   const [approveAmount, setApproveAmount] = useState('');
   const [spender, setSpender] = useState('');
+  const [mintAmount, setMintAmount] = useState('');
 
   const handleTransfer = async () => {
     if (!transferAmount || !recipient) return;
+
     await transfer(recipient, transferAmount);
     setTransferAmount('');
     setRecipient('');
@@ -28,9 +32,17 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
 
   const handleApprove = async () => {
     if (!approveAmount || !spender) return;
+
     await approve(spender, approveAmount);
     setApproveAmount('');
     setSpender('');
+  };
+
+  const handleMint = async () => {
+    if (!mintAmount || !walletAddress) return;
+
+    await mint(walletAddress, mintAmount);
+    setMintAmount('');
   };
 
   return (
@@ -68,6 +80,14 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
           isButtonDisabled={isApproving || !approveAmount || !spender}
         />
       </TransactionsContainer>
+
+      <Mint
+        amount={mintAmount}
+        setAmount={setMintAmount}
+        handleMint={handleMint}
+        isMinting={isMinting}
+        isButtonDisabled={isMinting || !mintAmount}
+      />
     </TokenCardContainer>
   );
 };
