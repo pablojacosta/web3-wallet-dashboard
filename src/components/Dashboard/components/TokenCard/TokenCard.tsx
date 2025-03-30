@@ -134,6 +134,11 @@ const TransactionsContainer = styled('div')(({ theme }) => ({
   width: '100%',
   gap: '1rem',
   color: theme.palette.text.secondary,
+  [theme.breakpoints.down('sm')]: {
+    justifyContent: 'center',
+    gap: '2rem',
+    flexDirection: 'column',
+  },
 
   '& button': {
     width: '7rem',

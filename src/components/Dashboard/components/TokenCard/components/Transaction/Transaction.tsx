@@ -61,6 +61,9 @@ const InputsContainer = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   width: '100%',
   gap: '1rem',
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'center',
+  },
 
   '& .MuiInputLabel-root, & input': {
     fontSize: '0.875rem',
