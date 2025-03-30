@@ -36,9 +36,11 @@ export const useTokenContract = (token: ETokenType) => {
 
   const [eventRecipient, setEventRecipient] = useState('');
   const [eventAmount, setEventAmount] = useState('');
+  const [allowedSpender, setAllowedSpender] = useState('');
 
   const address = TokenAddresses[token] as `0x${string}`;
   const validatedWalletAddress = validateWalletAddress(walletAddress);
+  const validatedAllowedSpender = validateWalletAddress(allowedSpender);
 
   const isQueryEnabled = Boolean(validatedWalletAddress && address);
 
@@ -64,9 +66,10 @@ export const useTokenContract = (token: ETokenType) => {
     address,
     abi: erc20Abi,
     functionName: 'allowance',
-    args: validatedWalletAddress ? [validatedWalletAddress, address] : undefined,
+    args:
+      validatedWalletAddress && validatedAllowedSpender ? [validatedWalletAddress, validatedAllowedSpender] : undefined,
     query: {
-      enabled: isQueryEnabled,
+      enabled: isQueryEnabled && Boolean(validatedAllowedSpender),
     },
   });
 
@@ -212,6 +215,17 @@ export const useTokenContract = (token: ETokenType) => {
     );
   };
 
+  const checkAllowance = (spender: string) => {
+    const validatedSpender = validateWalletAddress(spender);
+
+    if (!validatedSpender) {
+      setShowModal(true, EErrorMessage.INVALID_SPENDER, EMessageStatus.ERROR);
+      return;
+    }
+
+    setAllowedSpender(validatedSpender);
+  };
+
   return {
     balance: balance?.toString() || '0',
     formattedBalance,
@@ -221,6 +235,7 @@ export const useTokenContract = (token: ETokenType) => {
     approve: safeApprove,
     transfer: safeTransfer,
     mint: safeMint,
+    checkAllowance,
     isApproving,
     isTransferring,
     isMinting,

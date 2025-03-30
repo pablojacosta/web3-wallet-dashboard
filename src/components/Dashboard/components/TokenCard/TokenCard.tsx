@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { ETokenType, ETransactionType } from '~/enums';
 import { useTokenContract } from '~/hooks/useTokenContract';
 import { useWalletStore } from '~/store/useWalletStore';
+import { Allowance } from './components/Allowance';
 import { Mint } from './components/Mint';
 import { QuotaAndAmount } from './components/QuotaAndAmount';
 import { Transaction } from './components/Transaction';
@@ -17,6 +18,7 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
     transfer,
     approve,
     mint,
+    checkAllowance,
     isTransferring,
     isApproving,
     isMinting,
@@ -31,6 +33,7 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
   const [approveAmount, setApproveAmount] = useState('');
   const [spender, setSpender] = useState('');
   const [mintAmount, setMintAmount] = useState('');
+  const [allowedSpender, setAllowedSpender] = useState('');
 
   const handleTransfer = () => {
     if (!transferAmount || !recipient) return;
@@ -55,17 +58,17 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
     setMintAmount('');
   };
 
+  const handleSetAllowedSpender = (allowedSpender: string) => {
+    setAllowedSpender(allowedSpender);
+  };
+
   return (
     <TokenCardContainer>
       <Typography variant='h5' gutterBottom>
         {token}
       </Typography>
 
-      <QuotasContainer>
-        <QuotaAndAmount quota='Balance' amount={formattedBalance} isLoading={isLoadingBalance} />
-
-        <QuotaAndAmount quota='Allowance' amount={formattedAllowance} isLoading={isLoadingAllowance} />
-      </QuotasContainer>
+      <QuotaAndAmount quota='Balance' amount={formattedBalance} isLoading={isLoadingBalance} />
 
       <TransactionsContainer>
         <Transaction
@@ -91,6 +94,14 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
         />
       </TransactionsContainer>
 
+      <Allowance
+        allowance={formattedAllowance}
+        spender={allowedSpender}
+        handleSetAllowedSpender={handleSetAllowedSpender}
+        isLoading={isLoadingAllowance}
+        checkAllowance={checkAllowance}
+      />
+
       <Mint
         amount={mintAmount}
         setAmount={setMintAmount}
@@ -112,17 +123,8 @@ const TokenCardContainer = styled('div')(({ theme }) => ({
   width: '100%',
   maxWidth: '30rem',
   color: theme.palette.text.secondary,
-  gap: '1rem',
+  gap: '2rem',
   borderRadius: '0.5rem',
-}));
-
-const QuotasContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
-  maxWidth: '30rem',
-  color: theme.palette.text.secondary,
 }));
 
 const TransactionsContainer = styled('div')(({ theme }) => ({
