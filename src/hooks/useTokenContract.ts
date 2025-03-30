@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { erc20Abi, formatUnits, parseUnits } from 'viem';
 import { useReadContract, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
-import { EErrorMessage, EMessageStatus, ESuccessMessage, ETokenType } from '~/enums';
+import { EErrorMessage, EMessageStatus, ESuccessMessage, ETokenType, ETransactionType } from '~/enums';
+import { useEventStore } from '~/store/useEventStore';
 import { useModalStore } from '~/store/useModalStore';
 import { useWalletStore } from '~/store/useWalletStore';
 import { validateWalletAddress } from '~/utils/validation';
@@ -31,6 +32,10 @@ export const useTokenContract = (token: ETokenType) => {
   const { address: walletAddress } = useWalletStore();
   const { executeTransaction } = useTransactionHandler();
   const { setShowModal } = useModalStore();
+  const { addEvent } = useEventStore();
+
+  const [eventRecipient, setEventRecipient] = useState('');
+  const [eventAmount, setEventAmount] = useState('');
 
   const address = TokenAddresses[token] as `0x${string}`;
   const validatedWalletAddress = validateWalletAddress(walletAddress);
@@ -78,19 +83,37 @@ export const useTokenContract = (token: ETokenType) => {
   const formattedAllowance = allowance ? formatUnits(allowance, decimals ?? 0) : '0';
 
   useEffect(() => {
-    if (approveHash && !isApproving) {
+    if (approveHash && !isApproving && validatedWalletAddress) {
       setShowModal(true, ESuccessMessage.APPROVE, EMessageStatus.SUCCESS);
 
       refetchAllowance();
+
+      addEvent({
+        type: ETransactionType.APPROVE,
+        token,
+        amount: eventAmount,
+        sender: validatedWalletAddress,
+        recipient: eventRecipient,
+        hash: approveHash,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [approveHash, isApproving]);
 
   useEffect(() => {
-    if (transferHash && !isTransferring) {
+    if (transferHash && !isTransferring && validatedWalletAddress) {
       setShowModal(true, ESuccessMessage.TRANSFER, EMessageStatus.SUCCESS);
 
       refetchBalance();
+
+      addEvent({
+        type: ETransactionType.TRANSFER,
+        token,
+        amount: eventAmount,
+        sender: validatedWalletAddress,
+        recipient: eventRecipient,
+        hash: transferHash,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transferHash, isTransferring]);
@@ -122,6 +145,9 @@ export const useTokenContract = (token: ETokenType) => {
         }),
       refetchAllowance,
     );
+
+    setEventAmount(amount);
+    setEventRecipient(spender);
   };
 
   const safeTransfer = (recipient: string, amount: string) => {
@@ -142,6 +168,9 @@ export const useTokenContract = (token: ETokenType) => {
         }),
       refetchBalance,
     );
+
+    setEventAmount(amount);
+    setEventRecipient(recipient);
   };
 
   const safeMint = (recipient: string, amount: string) => {

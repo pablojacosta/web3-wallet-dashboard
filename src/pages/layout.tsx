@@ -30,7 +30,7 @@ const MainContent = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'start',
+  justifyContent: 'center',
   width: '100%',
   maxWidth: '100%',
   overflowX: 'hidden',

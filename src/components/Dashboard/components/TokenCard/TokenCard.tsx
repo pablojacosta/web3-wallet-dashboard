@@ -22,26 +22,26 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
   const [spender, setSpender] = useState('');
   const [mintAmount, setMintAmount] = useState('');
 
-  const handleTransfer = async () => {
+  const handleTransfer = () => {
     if (!transferAmount || !recipient) return;
 
-    await transfer(recipient, transferAmount);
+    transfer(recipient, transferAmount);
     setTransferAmount('');
     setRecipient('');
   };
 
-  const handleApprove = async () => {
+  const handleApprove = () => {
     if (!approveAmount || !spender) return;
 
-    await approve(spender, approveAmount);
+    approve(spender, approveAmount);
     setApproveAmount('');
     setSpender('');
   };
 
-  const handleMint = async () => {
+  const handleMint = () => {
     if (!mintAmount || !walletAddress) return;
 
-    await mint(walletAddress, mintAmount);
+    mint(walletAddress, mintAmount);
     setMintAmount('');
   };
 

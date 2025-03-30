@@ -10,50 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useEventStore } from '~/store/useEventStore';
+import { getEventTypeTitle, truncateAddress } from '~/utils';
 
 export const EventTable = () => {
-  const events = [
-    {
-      type: 'transfer',
-      token: 'DAI',
-      amount: 10,
-      recipient: '0x1234',
-      sender: '0x4321',
-      tx: '0x99999',
-    },
-    {
-      type: 'approve',
-      token: 'USDC',
-      amount: 100,
-      recipient: '0x4321',
-      sender: '0x1234',
-      tx: '0x11111',
-    },
-    {
-      type: 'transfer',
-      token: 'DAI',
-      amount: 10,
-      recipient: '0x1234',
-      sender: '0x4321',
-      tx: '0x99999',
-    },
-    {
-      type: 'approve',
-      token: 'USDC',
-      amount: 100,
-      recipient: '0x4321',
-      sender: '0x1234',
-      tx: '0x11111',
-    },
-    {
-      type: 'transfer',
-      token: 'DAI',
-      amount: 10,
-      recipient: '0x1234',
-      sender: '0x4321',
-      tx: '0x99999',
-    },
-  ];
+  const { events } = useEventStore();
 
   if (events.length === 0) {
     return (
@@ -79,13 +40,13 @@ export const EventTable = () => {
           </TableHead>
           <TableBody>
             {events.map((event) => (
-              <TableRow key={event.tx}>
-                <TableCell>{event.type}</TableCell>
+              <TableRow key={event.hash}>
+                <TableCell>{getEventTypeTitle(event.type)}</TableCell>
                 <TableCell>{event.token}</TableCell>
                 <TableCell>{event.amount}</TableCell>
-                <TableCell>{event.sender}</TableCell>
-                <TableCell>{event.recipient}</TableCell>
-                <TableCell>{event.tx}</TableCell>
+                <TableCell>{truncateAddress(event.sender)}</TableCell>
+                <TableCell>{truncateAddress(event.recipient)}</TableCell>
+                <TableCell>{truncateAddress(event.hash)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
