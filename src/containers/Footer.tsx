@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { FOOTER_HEIGHT } from '~/utils';
+import { fontSize, FOOTER_HEIGHT } from '~/utils';
 
 export const Footer = () => {
   return (
@@ -12,7 +12,10 @@ export const Footer = () => {
 const FooterContainer = styled('footer')(({ theme }) => ({
   display: 'flex',
   height: `${FOOTER_HEIGHT}rem`,
-  padding: '0 8rem',
+  padding: '0 2rem',
+  [theme.breakpoints.up('md')]: {
+    padding: '0 8rem',
+  },
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: theme.palette.background.secondary,
@@ -22,4 +25,11 @@ const FooterContainer = styled('footer')(({ theme }) => ({
   position: 'fixed',
   bottom: '0',
   left: '0',
+
+  '& h1': {
+    fontSize: fontSize.SMALL,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: fontSize.MEDIUM,
+    },
+  },
 }));
