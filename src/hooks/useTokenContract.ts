@@ -42,7 +42,11 @@ export const useTokenContract = (token: ETokenType) => {
 
   const isQueryEnabled = Boolean(validatedWalletAddress && address);
 
-  const { data: balance, refetch: refetchBalance } = useReadContract({
+  const {
+    data: balance,
+    refetch: refetchBalance,
+    isLoading: isLoadingBalance,
+  } = useReadContract({
     address,
     abi: erc20Abi,
     functionName: 'balanceOf',
@@ -52,7 +56,11 @@ export const useTokenContract = (token: ETokenType) => {
     },
   });
 
-  const { data: allowance, refetch: refetchAllowance } = useReadContract({
+  const {
+    data: allowance,
+    refetch: refetchAllowance,
+    isLoading: isLoadingAllowance,
+  } = useReadContract({
     address,
     abi: erc20Abi,
     functionName: 'allowance',
@@ -219,5 +227,7 @@ export const useTokenContract = (token: ETokenType) => {
     refetchBalance,
     refetchAllowance,
     refetchDecimals,
+    isLoadingBalance,
+    isLoadingAllowance,
   };
 };

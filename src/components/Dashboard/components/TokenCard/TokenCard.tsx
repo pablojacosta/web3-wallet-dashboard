@@ -13,8 +13,18 @@ interface ITokenCardProps {
 }
 
 export const TokenCard = ({ token }: ITokenCardProps) => {
-  const { transfer, approve, mint, isTransferring, isApproving, isMinting, formattedBalance, formattedAllowance } =
-    useTokenContract(token);
+  const {
+    transfer,
+    approve,
+    mint,
+    isTransferring,
+    isApproving,
+    isMinting,
+    formattedBalance,
+    formattedAllowance,
+    isLoadingBalance,
+    isLoadingAllowance,
+  } = useTokenContract(token);
   const { address: walletAddress } = useWalletStore();
   const [transferAmount, setTransferAmount] = useState('');
   const [recipient, setRecipient] = useState('');
@@ -52,9 +62,9 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
       </Typography>
 
       <QuotasContainer>
-        <QuotaAndAmount quota='Balance' amount={formattedBalance} />
+        <QuotaAndAmount quota='Balance' amount={formattedBalance} isLoading={isLoadingBalance} />
 
-        <QuotaAndAmount quota='Allowance' amount={formattedAllowance} />
+        <QuotaAndAmount quota='Allowance' amount={formattedAllowance} isLoading={isLoadingAllowance} />
       </QuotasContainer>
 
       <TransactionsContainer>
