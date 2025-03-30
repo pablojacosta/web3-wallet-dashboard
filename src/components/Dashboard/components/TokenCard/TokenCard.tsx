@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ETokenType } from '~/enums/tokenType';
 import { ETransactionType } from '~/enums/transactionType';
+import { useTokenContract } from '~/hooks/useTokenContract';
 import { QuotaAndAmount } from './components/QuotaAndAmount';
 import { Transaction } from './components/Transaction';
 
@@ -11,22 +12,26 @@ interface ITokenCardProps {
 }
 
 export const TokenCard = ({ token }: ITokenCardProps) => {
+  const { transfer, approve, isTransferring, isApproving, formattedBalance, formattedAllowance } =
+    useTokenContract(token);
   const [transferAmount, setTransferAmount] = useState('');
-  const [transferTo, setTransferTo] = useState('');
+  const [recipient, setRecipient] = useState('');
   const [approveAmount, setApproveAmount] = useState('');
   const [spender, setSpender] = useState('');
 
-  // TODO: replace mocks with real values
   const handleTransfer = async () => {
-    console.log('transfer');
+    if (!transferAmount || !recipient) return;
+    await transfer(recipient, transferAmount);
+    setTransferAmount('');
+    setRecipient('');
   };
 
   const handleApprove = async () => {
-    console.log('approve');
+    if (!approveAmount || !spender) return;
+    await approve(spender, approveAmount);
+    setApproveAmount('');
+    setSpender('');
   };
-
-  const isTransferring = false;
-  const isApproving = false;
 
   return (
     <TokenCardContainer>
@@ -35,21 +40,21 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
       </Typography>
 
       <QuotasContainer>
-        <QuotaAndAmount quota='Balance' amount={100} />
+        <QuotaAndAmount quota='Balance' amount={formattedBalance} />
 
-        <QuotaAndAmount quota='Allowance' amount={100} />
+        <QuotaAndAmount quota='Allowance' amount={formattedAllowance} />
       </QuotasContainer>
 
       <TransactionsContainer>
         <Transaction
           transactionType={ETransactionType.TRANSFER}
-          address={transferTo}
-          setAddress={setTransferTo}
+          address={recipient}
+          setAddress={setRecipient}
           amount={transferAmount}
           setAmount={setTransferAmount}
           handleTransaction={handleTransfer}
           isTransacting={isTransferring}
-          isButtonDisabled={isTransferring || !transferAmount || !transferTo}
+          isButtonDisabled={isTransferring || !transferAmount || !recipient}
         />
 
         <Transaction
@@ -97,4 +102,8 @@ const TransactionsContainer = styled('div')(({ theme }) => ({
   width: '100%',
   gap: '1rem',
   color: theme.palette.text.secondary,
+
+  '& button': {
+    width: '7rem',
+  },
 }));

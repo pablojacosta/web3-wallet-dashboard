@@ -1,15 +1,23 @@
-import { useState } from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useAccount } from 'wagmi';
 import { ETokenType } from '~/enums/tokenType';
+import { useWalletStore } from '~/store/useWalletStore';
 import { Toggle } from './components/Toggle';
 import { TokenCard } from './components/TokenCard';
 
 export const Dashboard = () => {
+  const { address, isConnected } = useAccount();
+  const { setAddress } = useWalletStore();
   const [selectedToken, setSelectedToken] = useState<ETokenType>(ETokenType.DAI);
 
-  // TODO: replace mocks with real values
-  const isConnected = true;
+  useEffect(() => {
+    setAddress(address || null);
+  }, [address, setAddress]);
+
   const handleTokenChange = (_event: React.MouseEvent<HTMLElement>, newToken: ETokenType.DAI) => {
     if (newToken === null) {
       return;

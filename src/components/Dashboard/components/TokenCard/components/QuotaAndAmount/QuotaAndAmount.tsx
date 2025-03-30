@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 
 interface IQuotaAndAmountProps {
   quota: string;
-  amount: number;
+  amount: string;
 }
 
 export const QuotaAndAmount = ({ quota, amount }: IQuotaAndAmountProps) => (
