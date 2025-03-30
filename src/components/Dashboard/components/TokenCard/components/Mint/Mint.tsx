@@ -33,7 +33,7 @@ export const Mint = ({ amount, setAmount, handleMint, isMinting, isButtonDisable
   );
 };
 
-const StyledMintContainer = styled('div')({
+const StyledMintContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -43,4 +43,11 @@ const StyledMintContainer = styled('div')({
   '& button': {
     width: '7rem',
   },
-});
+
+  '& .MuiInputLabel-root, & input': {
+    fontSize: '0.875rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '1rem',
+    },
+  },
+}));

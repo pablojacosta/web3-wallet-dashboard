@@ -54,11 +54,18 @@ export const Transaction = ({
   );
 };
 
-const InputsContainer = styled('div')({
+const InputsContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
   justifyContent: 'center',
   width: '100%',
   gap: '1rem',
-});
+
+  '& .MuiInputLabel-root, & input': {
+    fontSize: '0.875rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '1rem',
+    },
+  },
+}));
