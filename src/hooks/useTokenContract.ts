@@ -5,6 +5,7 @@ import { EErrorMessage, EMessageStatus, ESuccessMessage, ETokenType, ETransactio
 import { useEventStore } from '~/store/useEventStore';
 import { useModalStore } from '~/store/useModalStore';
 import { useWalletStore } from '~/store/useWalletStore';
+import { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS } from '~/utils';
 import { validateWalletAddress } from '~/utils/validation';
 import { useTransactionHandler } from './useTransactionHandler';
 
@@ -23,10 +24,9 @@ const extendedErc20Abi = [
 ];
 
 export const useTokenContract = (token: ETokenType) => {
-  // TODO: use address constants from config file
   const TokenAddresses = {
-    DAI: process.env.NEXT_PUBLIC_DAI_TOKEN_ADDRESS,
-    USDC: process.env.NEXT_PUBLIC_USDC_TOKEN_ADDRESS,
+    DAI: DAI_TOKEN_ADDRESS,
+    USDC: USDC_TOKEN_ADDRESS,
   } as const;
 
   const { address: walletAddress } = useWalletStore();

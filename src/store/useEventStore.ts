@@ -1,14 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { TokenEvent } from '~/types';
+import { EVENTS_STORAGE_KEY } from '~/utils';
 
 interface EventStore {
   events: TokenEvent[];
   addEvent: (event: TokenEvent) => void;
   clearEvents: () => void;
 }
-
-const STORAGE_KEY = 'transaction-events-storage';
 
 export const useEventStore = create<EventStore>()(
   persist(
@@ -21,7 +20,7 @@ export const useEventStore = create<EventStore>()(
       clearEvents: () => set({ events: [] }),
     }),
     {
-      name: STORAGE_KEY,
+      name: EVENTS_STORAGE_KEY,
     },
   ),
 );

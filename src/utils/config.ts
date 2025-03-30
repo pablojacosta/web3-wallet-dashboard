@@ -3,6 +3,7 @@ import { rainbowWallet, walletConnectWallet, injectedWallet } from '@rainbow-me/
 import { http, cookieStorage, createStorage, createConfig } from 'wagmi';
 import { sepolia, localhost } from 'wagmi/chains';
 import { getConfig } from '~/config';
+import { getConstants } from '~/config/constants';
 
 const { PROJECT_ID } = getConfig().env;
 
@@ -40,3 +41,5 @@ export const config = createConfig({
   batch: { multicall: true },
   connectors,
 });
+
+export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY } = getConstants();

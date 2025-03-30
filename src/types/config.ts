@@ -7,6 +7,7 @@ export interface Env {
 export interface Constants {
   DAI_TOKEN_ADDRESS: string;
   USDC_TOKEN_ADDRESS: string;
+  EVENTS_STORAGE_KEY: string;
 }
 
 export interface Config {
