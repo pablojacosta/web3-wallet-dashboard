@@ -7,6 +7,8 @@ export enum EErrorMessage {
   NO_MINT_AMOUNT = 'Please enter a mint amount.',
   NO_VALID_AMOUNT = 'Please enter a valid positive amount.',
   INSUFFICIENT_ALLOWANCE = 'Insufficient allowance. Please approve first.',
+  WRONG_NETWORK = 'Mainnet is not supported. Switching to Sepolia.',
+  UNKNOWN_NETWORK_ERROR = 'Something went wrong. Please try again with Sepolia.',
 }
 
 export enum EMessageStatus {

@@ -1,11 +1,11 @@
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import { rainbowWallet, walletConnectWallet, injectedWallet } from '@rainbow-me/rainbowkit/wallets';
 import { http, cookieStorage, createStorage, createConfig } from 'wagmi';
-import { sepolia, localhost } from 'wagmi/chains';
 import { getConfig } from '~/config';
 import { getConstants } from '~/config/constants';
 
 const { PROJECT_ID } = getConfig().env;
+export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY, SUPPORTED_CHAINS } = getConstants();
 
 const getWallets = () => {
   if (PROJECT_ID) {
@@ -29,11 +29,8 @@ const connectors = connectorsForWallets(
 );
 
 export const config = createConfig({
-  chains: [localhost, sepolia],
-  transports: {
-    [localhost.id]: http(),
-    [sepolia.id]: http(),
-  },
+  chains: SUPPORTED_CHAINS,
+  transports: Object.fromEntries(SUPPORTED_CHAINS.map((chain) => [chain.id, http()])),
   ssr: true,
   storage: createStorage({
     storage: cookieStorage,
@@ -41,5 +38,3 @@ export const config = createConfig({
   batch: { multicall: true },
   connectors,
 });
-
-export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY } = getConstants();

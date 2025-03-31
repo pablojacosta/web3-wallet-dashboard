@@ -11,6 +11,11 @@ A modern web3 dashboard built with Next.js, TypeScript, and Material-UI that all
   - Approve token spending
   - Mint tokens (for testing purposes)
   - Check token allowance for a specific spender
+- 🌐 Network Management
+  - Automatic network detection
+  - Chain switching capability
+  - Support for multiple networks (Sepolia, Mainnet)
+  - Network validation and feedback
 - 📊 Transaction History
   - Real-time transaction tracking
   - Persistent storage of transaction events
@@ -95,6 +100,15 @@ Manages transaction execution and error handling:
 - Error processing
 - Success/failure notifications
 
+### useNetworkCheck
+
+Manages network validation and switching:
+
+- Automatic network detection
+- Chain switching functionality
+- Error handling for network changes
+- User feedback through modals
+
 ## State Management
 
 ### useEventStore
@@ -149,14 +163,16 @@ yarn run dev
 ## Usage
 
 1. Connect your wallet using the RainbowKit button
-2. Select a token (DAI or USDC) to interact with
-3. Use the token card to:
+2. The app will automatically detect and validate your network
+3. If on an unsupported network, you'll be switched automatically to Sepolia
+4. Select a token (DAI or USDC) to interact with
+5. Use the token card to:
    - Check your balance
    - Transfer tokens
    - Approve token spending
    - Mint tokens (test only)
    - Check token allowance
-4. View your transaction history in the event table
+6. View your transaction history in the event table
 
 ## Error Handling
 
@@ -167,6 +183,9 @@ The application handles various error scenarios:
 - Transaction rejections
 - Network errors
 - Contract interaction failures
+- Network validation errors
+- Chain switching failures
+- Unsupported network detection
 
 ## Best Practices
 

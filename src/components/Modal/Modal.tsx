@@ -9,7 +9,7 @@ export const Modal = () => {
   const isLoadingStatus = messageStatus === EMessageStatus.LOADING;
 
   return (
-    <StyledDialog open={showModal} onClose={() => setShowModal(false)}>
+    <StyledDialog open={showModal} onClose={() => setShowModal(false)} disableRestoreFocus disableScrollLock>
       {messageStatus && !isLoadingStatus && <DialogTitle>{messageStatus.toLocaleUpperCase()}</DialogTitle>}
 
       <DialogContent>{message || 'An error occurred.'}</DialogContent>
