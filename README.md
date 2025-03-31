@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wallet Dashboard
+
+A modern web3 dashboard built with Next.js, TypeScript, and Material-UI that allows users to interact with ERC20 tokens (DAI and USDC). The application provides functionality for token transfers, approvals, minting, and tracking transaction history.
+
+## Features
+
+- 🔐 Wallet Connection (using RainbowKit)
+- 💰 Token Management
+  - View token balances
+  - Transfer tokens
+  - Approve token spending
+  - Mint tokens (for testing purposes)
+  - Check token allowance for a specific spender
+- 📊 Transaction History
+  - Real-time transaction tracking
+  - Persistent storage of transaction events
+- 🎨 Modern UI/UX
+  - Responsive design
+  - Loading states
+  - Error handling
+  - Transaction feedback
+
+## Tech Stack
+
+- **Framework**: Next.js
+- **Language**: TypeScript
+- **Styling**: Material-UI (MUI)
+- **Web3**:
+  - Wagmi (Ethereum interactions)
+  - RainbowKit (Wallet connection)
+  - Viem (Ethereum utilities)
+- **State Management**:
+  - Zustand (Application state)
+  - Persisted storage for transaction history
+- **Code Quality**:
+  - ESLint
+  - Prettier
+
+## Project Structure
+
+src/
+├── components/
+│ ├── Dashboard/ # Main dashboard components
+│ │ └── components/
+│ │ ├── EventTable/ # Transaction history table
+│ │ └── TokenCard/ # Token management card
+│ └── Shared/ # Reusable components
+├── containers/ # Layout components
+├── enums/ # TypeScript enums
+├── hooks/ # Custom React hooks
+├── store/ # Zustand stores
+├── types/ # TypeScript types
+└── utils/ # Utility functions
+
+## Key Components
+
+### TokenCard
+
+Manages individual token interactions including:
+
+- Balance display
+- Transfer functionality
+- Approval management
+- Minting capability
+
+### EventTable
+
+Displays transaction history with:
+
+- Transaction type
+- Token information
+- Amount
+- Sender/Recipient addresses
+- Transaction hash
+
+## Custom Hooks
+
+### useTokenContract
+
+Central hook for token interactions:
+
+- Token balance queries
+- Allowance checking
+- Transfer execution
+- Approval management
+- Minting functionality
+
+### useTransactionHandler
+
+Manages transaction execution and error handling:
+
+- Transaction execution
+- Error processing
+- Success/failure notifications
+
+## State Management
+
+### useEventStore
+
+Persists transaction history:
+
+- Stores transaction events
+- Survives page reloads
+- Filters by transaction type
+
+### useModalStore
+
+Manages modal states for:
+
+- Transaction feedback
+- Error messages
+- Loading states
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Set up environment variables:
 
-## Learn More
+```bash
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+Required environment variables:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `NEXT_PUBLIC_PROJECT_ID`
+- `NEXT_PUBLIC_DAI_TOKEN_ADDRESS`
+- `NEXT_PUBLIC_USDC_TOKEN_ADDRESS`
+- `NEXT_PUBLIC_EVENTS_STORAGE_KEY`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Run the development server:
 
-## Deploy on Vercel
+```bash
+yarn run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Connect your wallet using the RainbowKit button
+2. Select a token (DAI or USDC) to interact with
+3. Use the token card to:
+   - Check your balance
+   - Transfer tokens
+   - Approve token spending
+   - Mint tokens (test only)
+   - Check token allowance
+4. View your transaction history in the event table
+
+## Error Handling
+
+The application handles various error scenarios:
+
+- Invalid addresses
+- Insufficient funds
+- Transaction rejections
+- Network errors
+- Contract interaction failures
+
+## Best Practices
+
+- TypeScript for type safety
+- Component-based architecture
+- Custom hooks for reusable logic
+- Centralized state management
+- Persistent storage for user data
+- Responsive design principles
+- Loading state management
+- Error boundary implementation
+
+Pablo Acosta - 2025
