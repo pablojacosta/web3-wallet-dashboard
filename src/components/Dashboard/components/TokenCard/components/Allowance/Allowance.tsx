@@ -33,6 +33,7 @@ export const Allowance = ({
         size='small'
         fullWidth
         disabled={isLoading}
+        data-testid='spender-input'
       />
 
       <TransactionButton

@@ -13,7 +13,12 @@ export const TransactionButton = ({
   isButtonDisabled,
   text,
 }: ITransactionButtonProps) => (
-  <Button variant='contained' onClick={handleTransaction} disabled={isButtonDisabled}>
+  <Button
+    variant='contained'
+    onClick={handleTransaction}
+    disabled={isButtonDisabled}
+    data-testid={`button-${text.toLocaleLowerCase()}`}
+  >
     {isTransacting ? <CircularProgress size={24} /> : text}
   </Button>
 );

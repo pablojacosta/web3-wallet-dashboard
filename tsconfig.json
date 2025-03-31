@@ -25,18 +25,21 @@
       }
     ],
     "baseUrl": ".",
-    "types": ["cypress"],
+    "types": ["@testing-library/jest-dom"],
     "paths": {
       "~/*": ["src/*"]
     }
   },
   "include": [
-    "./cypress/**/*.ts",
     "./dist/types/**/*.ts",
     "./jest.config.ts",
     "./next-env.d.ts",
     "./src",
-    ".next/types/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
   ],
-  "exclude": ["./node_modules"]
+  "exclude": ["./node_modules", "./cypress.config.ts"]
 }

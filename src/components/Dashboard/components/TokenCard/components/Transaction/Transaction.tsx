@@ -39,9 +39,17 @@ export const Transaction = ({
           size='small'
           fullWidth
           disabled={isTransacting}
+          data-testid={`address-input-${transactionType}`}
         />
 
-        <TextField label='Amount' value={amount} onChange={(e) => setAmount(e.target.value)} size='small' fullWidth />
+        <TextField
+          label='Amount'
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          size='small'
+          fullWidth
+          data-testid={`amount-input-${transactionType}`}
+        />
 
         <TransactionButton
           handleTransaction={handleTransaction}

@@ -10,9 +10,13 @@ export const Balance = ({ amount, isLoading }: IBalance) => (
   <StyledQuotaContainer>
     <Typography>Balance</Typography>
 
-    {isLoading && <Skeleton width={50} height={32} />}
+    {isLoading && <Skeleton width={50} height={32} data-testid='skeleton' />}
 
-    {!isLoading && <Typography variant='h6'>{amount}</Typography>}
+    {!isLoading && (
+      <Typography variant='h6' data-testid='balance-amount'>
+        {amount}
+      </Typography>
+    )}
   </StyledQuotaContainer>
 );
 

@@ -64,7 +64,7 @@ export const TokenCard = ({ token }: ITokenCardProps) => {
 
   return (
     <TokenCardContainer>
-      <Typography variant='h5' gutterBottom>
+      <Typography variant='h5' gutterBottom data-testid='token-title'>
         {token}
       </Typography>
 
