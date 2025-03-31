@@ -38,6 +38,7 @@ A modern web3 dashboard built with Next.js, TypeScript, and Material-UI that all
 
 ## Project Structure
 
+```
 src/
 ├── components/
 │ ├── Dashboard/ # Main dashboard components
@@ -51,6 +52,7 @@ src/
 ├── store/ # Zustand stores
 ├── types/ # TypeScript types
 └── utils/ # Utility functions
+```
 
 ## Key Components
 
