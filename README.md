@@ -40,6 +40,9 @@ A modern web3 dashboard built with Next.js, TypeScript, and Material-UI that all
 - **Code Quality**:
   - ESLint
   - Prettier
+- **Testing**:
+  - Vitest
+  - React Testing Library
 
 ## Project Structure
 
@@ -49,11 +52,16 @@ src/
 │ ├── Dashboard/ # Main dashboard components
 │ │ └── components/
 │ │ ├── EventTable/ # Transaction history table
+│ │ ├── Toggle/ # Toggle component
 │ │ └── TokenCard/ # Token management card
+│ ├── Modal/ # Modal components
 │ └── Shared/ # Reusable components
+├── config/ # Config files
 ├── containers/ # Layout components
 ├── enums/ # TypeScript enums
 ├── hooks/ # Custom React hooks
+├── pages/ # Pages
+├── providers/ # Providers
 ├── store/ # Zustand stores
 ├── types/ # TypeScript types
 └── utils/ # Utility functions
@@ -127,6 +135,72 @@ Manages modal states for:
 - Error messages
 - Loading states
 
+## Testing
+
+The application includes comprehensive test coverage:
+
+### Unit Tests
+
+- Custom hooks testing
+
+  - `useTokenContract`: Token operations and state management
+  - `useNetworkCheck`: Network validation and switching
+  - `useTransactionHandler`: Transaction execution and error handling
+
+- Component testing
+  - `Allowance`: Allowance section
+  - `Balance`: Balance section
+  - `Dashboard`: Dashboard component
+  - `EventTable`: Transaction history display
+  - `Mint`: Minting section
+  - `Modal`: User feedback and notifications
+  - `Toggle`: Toggle component
+  - `TokenCard`: Token management functionality
+  - `Transaction`: User feedback and notifications
+
+### Test Structure
+
+```
+src/tests/
+├── components/ # Component tests
+│ ├── Allowance.test.tsx
+│ ├── Balance.test.tsx
+│ ├── Dashboard.test.tsx
+│ ├── EventTable.test.tsx
+│ ├── Mint.test.tsx
+│ ├── Modal.test.tsx
+│ ├── Toggle.test.tsx
+│ ├── TokenCard.test.tsx
+│ └── Transaction.test.tsx
+└── hooks/ # Hook tests
+├── useTokenContract.test.tsx
+├── useNetworkCheck.test.tsx
+└── useTransactionHandler.test.tsx
+```
+
+### Test Coverage
+
+- Component rendering and interactions
+- Hook state management
+- Error handling scenarios
+- Network validation
+- Transaction processing
+- User input validation
+- Modal state management
+
+### Running Tests
+
+```bash
+# Run all tests
+yarn test
+```
+
+### Test Environment
+
+- Vitest for test runner
+- React Testing Library for component testing
+- Mock implementations for web3 interactions
+
 ## Getting Started
 
 1. Clone the repository:
@@ -150,9 +224,6 @@ cp .env.example .env.local
 Required environment variables:
 
 - `NEXT_PUBLIC_PROJECT_ID`
-- `NEXT_PUBLIC_DAI_TOKEN_ADDRESS`
-- `NEXT_PUBLIC_USDC_TOKEN_ADDRESS`
-- `NEXT_PUBLIC_EVENTS_STORAGE_KEY`
 
 4. Run the development server:
 
@@ -170,7 +241,7 @@ yarn run dev
    - Check your balance
    - Transfer tokens
    - Approve token spending
-   - Mint tokens (test only)
+   - Mint tokens (test only, with validation for min/max limits)
    - Check token allowance
 6. View your transaction history in the event table
 
@@ -186,6 +257,11 @@ The application handles various error scenarios:
 - Network validation errors
 - Chain switching failures
 - Unsupported network detection
+- Minting validation errors:
+  - Maximum mint limit exceeded
+  - Minimum mint amount not met
+  - Invalid mint amount (negative or zero)
+  - Empty mint amount
 
 ## Best Practices
 

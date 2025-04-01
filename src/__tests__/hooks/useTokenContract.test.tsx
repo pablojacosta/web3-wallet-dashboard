@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { mockHookStates } from '~/__mocks__/web3';
-import { ETokenType } from '~/enums';
+import { EErrorMessage, EMessageStatus, ETokenType } from '~/enums';
 import { useTokenContract } from '~/hooks/useTokenContract';
 import { useModalStore } from '~/store/useModalStore';
 
@@ -100,6 +100,10 @@ describe('useTokenContract', () => {
   });
 
   describe('mint operations', () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
     it('handles mint successfully', async () => {
       mockHookStates.contract.write.success('0xtxhash');
 
@@ -129,11 +133,27 @@ describe('useTokenContract', () => {
 
       const { result } = renderHook(() => useTokenContract(ETokenType.DAI));
 
+      // Test empty amount
       result.current.mint(mockAddress, '');
-      expect(mockSetShowModal).toHaveBeenCalled();
+      expect(mockSetShowModal).toHaveBeenCalledWith(true, EErrorMessage.NO_MINT_AMOUNT, EMessageStatus.ERROR);
 
+      mockSetShowModal.mockClear();
+
+      // Test negative amount
       result.current.mint(mockAddress, '-1');
-      expect(mockSetShowModal).toHaveBeenCalled();
+      expect(mockSetShowModal).toHaveBeenCalledWith(true, EErrorMessage.NO_VALID_AMOUNT, EMessageStatus.ERROR);
+
+      mockSetShowModal.mockClear();
+
+      // Test amount exceeding max limit
+      result.current.mint(mockAddress, '101');
+      expect(mockSetShowModal).toHaveBeenCalledWith(true, EErrorMessage.MAX_MINTS_ERROR, EMessageStatus.ERROR);
+
+      mockSetShowModal.mockClear();
+
+      // Test amount below min limit
+      result.current.mint(mockAddress, '0.001');
+      expect(mockSetShowModal).toHaveBeenCalledWith(true, EErrorMessage.MIN_MINTS_ERROR, EMessageStatus.ERROR);
     });
   });
 
@@ -158,6 +178,15 @@ describe('useTokenContract', () => {
 
       result.current.checkAllowance('invalid-address');
       expect(mockSetShowModal).toHaveBeenCalled();
+    });
+
+    it('handles mint successfully within limits', async () => {
+      mockHookStates.contract.write.success('0xtxhash');
+
+      const { result } = renderHook(() => useTokenContract(ETokenType.DAI));
+
+      result.current.mint(mockAddress, '10');
+      expect(result.current.isMinting).toBe(false);
     });
   });
 });

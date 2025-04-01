@@ -5,7 +5,7 @@ import { EErrorMessage, EMessageStatus, ESuccessMessage, ETokenType, ETransactio
 import { useEventStore } from '~/store/useEventStore';
 import { useModalStore } from '~/store/useModalStore';
 import { useWalletStore } from '~/store/useWalletStore';
-import { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS } from '~/utils';
+import { DAI_TOKEN_ADDRESS, MAX_MINTS, MIN_MINTS, USDC_TOKEN_ADDRESS } from '~/utils';
 import { validateWalletAddress } from '~/utils/validation';
 import { useTransactionHandler } from './useTransactionHandler';
 
@@ -200,6 +200,16 @@ export const useTokenContract = (token: ETokenType) => {
 
     if (isNaN(amountNumber) || amountNumber <= 0) {
       setShowModal(true, EErrorMessage.NO_VALID_AMOUNT, EMessageStatus.ERROR);
+      return;
+    }
+
+    if (amountNumber > MAX_MINTS) {
+      setShowModal(true, EErrorMessage.MAX_MINTS_ERROR, EMessageStatus.ERROR);
+      return;
+    }
+
+    if (amountNumber < MIN_MINTS) {
+      setShowModal(true, EErrorMessage.MIN_MINTS_ERROR, EMessageStatus.ERROR);
       return;
     }
 

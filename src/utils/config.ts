@@ -7,7 +7,7 @@ import { getConstants } from '~/config/constants';
 
 const { PROJECT_ID } = getConfig().env;
 
-export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY } = getConstants();
+export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY, MAX_MINTS, MIN_MINTS } = getConstants();
 
 export const SUPPORTED_CHAINS = [sepolia, mainnet] as [Chain, ...Chain[]];
 

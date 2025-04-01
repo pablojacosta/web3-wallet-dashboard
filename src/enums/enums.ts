@@ -9,6 +9,8 @@ export enum EErrorMessage {
   INSUFFICIENT_ALLOWANCE = 'Insufficient allowance. Please approve first.',
   WRONG_NETWORK = 'Mainnet is not supported. Switching to Sepolia.',
   UNKNOWN_NETWORK_ERROR = 'Something went wrong. Please try again with Sepolia.',
+  MAX_MINTS_ERROR = 'Minting limit reached! You can mint up to 100 tokens per transaction.',
+  MIN_MINTS_ERROR = 'Minting limit not met! You must mint at least 0.01 token per transaction.',
 }
 
 export enum EMessageStatus {
