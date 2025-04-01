@@ -201,6 +201,64 @@ yarn test
 - React Testing Library for component testing
 - Mock implementations for web3 interactions
 
+### End-to-End Tests (Cypress)
+
+The application includes Cypress tests for critical user flows:
+
+#### Test Structure
+
+```
+cypress/
+├── e2e/ # End-to-end test files
+│ ├── allowance.cy.ts # Allowance functionality tests
+│ ├── approve.cy.ts # Approval functionality tests
+│ ├── mint.cy.ts # Minting functionality tests
+│ └── transfer.cy.ts # Transfer functionality tests
+├── support/ # Support files
+│ ├── commands.ts # Custom Cypress commands
+│ └── e2e.ts # E2E test configuration
+└── fixtures/ # Test data
+```
+
+#### Test Coverage
+
+- Wallet Connection
+  - Successful connection
+  - Address display verification
+- Token Operations
+  - Minting
+    - Successful minting
+    - Minimum/Maximum amount validation
+    - Invalid amount handling
+  - Transfers
+    - Successful transfers
+    - Invalid address validation
+    - Transaction confirmation
+  - Approval
+    - Successful transfers
+    - Invalid address validation
+  - Allowance
+    - Successful check
+    - Invalid address validation
+- Transaction Feedback
+  - Success modals
+  - Error messages
+  - Loading states
+
+#### Running Cypress Tests
+
+```bash
+# Open Cypress Test Runner
+yarn cypress:open
+```
+
+#### Test Environment
+
+- Cypress for E2E testing
+- Network request interception
+- Contract interaction mocking
+- Wallet connection simulation
+
 ## Getting Started
 
 1. Clone the repository:

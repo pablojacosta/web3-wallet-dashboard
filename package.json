@@ -13,8 +13,6 @@
     "format": "yarn run prettier:fix && yarn run lint:fix",
     "format:check": "yarn run prettier && yarn run lint",
     "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "test:e2e": "yarn cypress run",
     "test": "vitest"
   },
   "dependencies": {
