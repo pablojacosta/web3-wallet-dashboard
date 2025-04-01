@@ -30,23 +30,23 @@ describe('Transaction', () => {
   it('renders transfer transaction correctly', () => {
     render(<Transaction {...defaultProps} />);
 
-    expect(screen.getByTestId('address-input-transfer')).toBeInTheDocument();
-    expect(screen.getByTestId('amount-input-transfer')).toBeInTheDocument();
+    expect(screen.getByTestId('address-input-transfer-parent')).toBeInTheDocument();
+    expect(screen.getByTestId('amount-input-transfer-parent')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Transfer' })).toBeInTheDocument();
   });
 
   it('renders approve transaction correctly', () => {
     render(<Transaction {...defaultProps} transactionType={ETransactionType.APPROVE} />);
 
-    expect(screen.getByTestId('address-input-approve')).toBeInTheDocument();
-    expect(screen.getByTestId('amount-input-approve')).toBeInTheDocument();
+    expect(screen.getByTestId('address-input-approve-parent')).toBeInTheDocument();
+    expect(screen.getByTestId('amount-input-approve-parent')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Approve' })).toBeInTheDocument();
   });
 
   it('handles address input change', () => {
     render(<Transaction {...defaultProps} />);
 
-    const addressInput = screen.getByTestId('address-input-transfer').querySelector('input');
+    const addressInput = screen.getByTestId('address-input-transfer-parent').querySelector('input');
 
     if (addressInput) {
       fireEvent.change(addressInput, { target: { value: '0x123' } });
@@ -58,7 +58,7 @@ describe('Transaction', () => {
   it('handles amount input change', () => {
     render(<Transaction {...defaultProps} />);
 
-    const amountInput = screen.getByTestId('amount-input-transfer').querySelector('input');
+    const amountInput = screen.getByTestId('amount-input-transfer-parent').querySelector('input');
 
     if (amountInput) {
       fireEvent.change(amountInput, { target: { value: '100' } });
@@ -70,7 +70,7 @@ describe('Transaction', () => {
   it('disables inputs and button when transaction is in progress', () => {
     render(<Transaction {...defaultProps} isTransacting={true} />);
 
-    const addressInput = screen.getByTestId('address-input-transfer').querySelector('input');
+    const addressInput = screen.getByTestId('address-input-transfer-parent').querySelector('input');
     const button = screen.getByTestId('button-transfer');
 
     expect(addressInput).toBeDisabled();
@@ -107,8 +107,8 @@ describe('Transaction', () => {
 
     render(<Transaction {...initialValues} />);
 
-    const addressInput = screen.getByTestId('address-input-transfer').querySelector('input');
-    const amountInput = screen.getByTestId('amount-input-transfer').querySelector('input');
+    const addressInput = screen.getByTestId('address-input-transfer-parent').querySelector('input');
+    const amountInput = screen.getByTestId('amount-input-transfer-parent').querySelector('input');
 
     expect(addressInput).toHaveValue('0x456');
     expect(amountInput).toHaveValue('50');

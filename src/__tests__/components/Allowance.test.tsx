@@ -26,14 +26,14 @@ describe('Allowance', () => {
     render(<Allowance {...defaultProps} />);
 
     expect(screen.getByText('Check Allowance: 100')).toBeInTheDocument();
-    expect(screen.getByTestId('spender-input')).toBeInTheDocument();
+    expect(screen.getByTestId('spender-input-parent')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Check' })).toBeInTheDocument();
   });
 
   it('handles spender address input change', () => {
     render(<Allowance {...defaultProps} />);
 
-    const spenderInput = screen.getByTestId('spender-input').querySelector('input');
+    const spenderInput = screen.getByTestId('spender-input-parent').querySelector('input');
     expect(spenderInput).toBeInTheDocument();
 
     fireEvent.change(spenderInput!, { target: { value: '0x123' } });
@@ -43,7 +43,7 @@ describe('Allowance', () => {
   it('disables input when loading', () => {
     render(<Allowance {...defaultProps} isLoading={true} />);
 
-    const spenderInput = screen.getByTestId('spender-input').querySelector('input');
+    const spenderInput = screen.getByTestId('spender-input-parent').querySelector('input');
     expect(spenderInput).toBeDisabled();
   });
 
@@ -96,7 +96,7 @@ describe('Allowance', () => {
   it('preserves spender input value', () => {
     render(<Allowance {...defaultProps} spender='0x123' />);
 
-    const spenderInput = screen.getByTestId('spender-input').querySelector('input');
+    const spenderInput = screen.getByTestId('spender-input-parent').querySelector('input');
     expect(spenderInput).toHaveValue('0x123');
   });
 });

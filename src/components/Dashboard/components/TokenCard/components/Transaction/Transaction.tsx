@@ -39,6 +39,7 @@ export const Transaction = ({
           size='small'
           fullWidth
           disabled={isTransacting}
+          data-testid={`address-input-${transactionType}-parent`}
           inputProps={{
             'data-testid': `address-input-${transactionType}`,
           }}
@@ -50,6 +51,7 @@ export const Transaction = ({
           onChange={(e) => setAmount(e.target.value)}
           size='small'
           fullWidth
+          data-testid={`amount-input-${transactionType}-parent`}
           inputProps={{
             'data-testid': `amount-input-${transactionType}`,
           }}

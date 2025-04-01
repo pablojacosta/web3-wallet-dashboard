@@ -64,8 +64,8 @@ describe('TokenCard', () => {
   it('handles transfer transaction correctly', () => {
     render(<TokenCard token={ETokenType.DAI} />);
 
-    const recipientInput = screen.getByTestId('address-input-transfer').querySelector('input');
-    const amountInput = screen.getByTestId('amount-input-transfer').querySelector('input');
+    const recipientInput = screen.getByTestId('address-input-transfer-parent').querySelector('input');
+    const amountInput = screen.getByTestId('amount-input-transfer-parent').querySelector('input');
     const transferButton = screen.getByRole('button', { name: 'Transfer' });
 
     if (recipientInput && amountInput) {
@@ -80,8 +80,8 @@ describe('TokenCard', () => {
   it('handles approve transaction correctly', () => {
     render(<TokenCard token={ETokenType.DAI} />);
 
-    const spenderInput = screen.getByTestId('address-input-approve').querySelector('input');
-    const amountInput = screen.getByTestId('amount-input-approve').querySelector('input');
+    const spenderInput = screen.getByTestId('address-input-approve-parent').querySelector('input');
+    const amountInput = screen.getByTestId('amount-input-approve-parent').querySelector('input');
     const approveButton = screen.getByRole('button', { name: 'Approve' });
 
     if (spenderInput && amountInput) {
@@ -140,7 +140,7 @@ describe('TokenCard', () => {
   it('checks allowance when spender address is provided', () => {
     render(<TokenCard token={ETokenType.DAI} />);
 
-    const spenderInput = screen.getByTestId('spender-input').querySelector('input');
+    const spenderInput = screen.getByTestId('spender-input-parent').querySelector('input');
 
     if (spenderInput) {
       fireEvent.change(spenderInput, { target: { value: '0x789' } });
