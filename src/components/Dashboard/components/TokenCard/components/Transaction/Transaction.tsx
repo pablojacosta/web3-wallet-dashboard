@@ -39,7 +39,9 @@ export const Transaction = ({
           size='small'
           fullWidth
           disabled={isTransacting}
-          data-testid={`address-input-${transactionType}`}
+          inputProps={{
+            'data-testid': `address-input-${transactionType}`,
+          }}
         />
 
         <TextField
@@ -48,7 +50,9 @@ export const Transaction = ({
           onChange={(e) => setAmount(e.target.value)}
           size='small'
           fullWidth
-          data-testid={`amount-input-${transactionType}`}
+          inputProps={{
+            'data-testid': `amount-input-${transactionType}`,
+          }}
         />
 
         <TransactionButton

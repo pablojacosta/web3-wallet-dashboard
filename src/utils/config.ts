@@ -2,12 +2,14 @@ import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import { rainbowWallet, walletConnectWallet, injectedWallet } from '@rainbow-me/rainbowkit/wallets';
 import { http, cookieStorage, createStorage, createConfig } from 'wagmi';
 import { sepolia, mainnet, Chain } from 'wagmi/chains';
+import { mock } from 'wagmi/connectors';
 import { getConfig } from '~/config';
 import { getConstants } from '~/config/constants';
 
-const { PROJECT_ID } = getConfig().env;
+export const { PROJECT_ID, TEST_ENV } = getConfig().env;
 
-export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY, MAX_MINTS, MIN_MINTS } = getConstants();
+export const { DAI_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EVENTS_STORAGE_KEY, MAX_MINTS, MIN_MINTS, MOCK_ADDRESS } =
+  getConstants();
 
 export const SUPPORTED_CHAINS = [sepolia, mainnet] as [Chain, ...Chain[]];
 
@@ -34,6 +36,12 @@ const connectors = connectorsForWallets(
   },
 );
 
+const mockTestConnectors = [
+  mock({
+    accounts: [MOCK_ADDRESS],
+  }),
+];
+
 export const config = createConfig({
   chains: SUPPORTED_CHAINS,
   transports,
@@ -42,5 +50,5 @@ export const config = createConfig({
     storage: cookieStorage,
   }),
   batch: { multicall: true },
-  connectors,
+  connectors: TEST_ENV ? mockTestConnectors : connectors,
 });

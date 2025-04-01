@@ -6,6 +6,7 @@ const constants: Constants = {
   EVENTS_STORAGE_KEY: 'transaction-events-storage',
   MAX_MINTS: 100,
   MIN_MINTS: 0.01,
+  MOCK_ADDRESS: '0x14Df18359448ADdC29c39538DCF07D7baBC75537',
 };
 
 export const getConstants = (): Constants => {

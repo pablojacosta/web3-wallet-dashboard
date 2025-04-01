@@ -1,18 +1,18 @@
 import { styled } from '@mui/material/styles';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { fontSize, HEADER_HEIGHT, zIndex } from '~/utils';
+import { MockConnectButton } from '~/components/Shared/MockConnectButton/MockConnectButton';
+import { fontSize, HEADER_HEIGHT, TEST_ENV, zIndex } from '~/utils';
 
-export const Header = () => {
-  return (
-    <StyledHeader>
-      <StyledTitle>Wallet Dashboard</StyledTitle>
+export const Header = () => (
+  <StyledHeader>
+    <StyledTitle>Wallet Dashboard</StyledTitle>
 
-      <ConnectButton />
-    </StyledHeader>
-  );
-};
+    {!TEST_ENV && <ConnectButton />}
 
-//Styles
+    {TEST_ENV && <MockConnectButton />}
+  </StyledHeader>
+);
+
 const StyledHeader = styled('header')(({ theme }) => ({
   display: 'flex',
   height: `${HEADER_HEIGHT}rem`,

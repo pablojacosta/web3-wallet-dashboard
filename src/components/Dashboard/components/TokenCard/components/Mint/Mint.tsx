@@ -21,6 +21,9 @@ export const Mint = ({ amount, setAmount, handleMint, isMinting, isButtonDisable
         size='small'
         fullWidth
         disabled={isMinting}
+        inputProps={{
+          'data-testid': 'mint-amount-input',
+        }}
       />
 
       <TransactionButton

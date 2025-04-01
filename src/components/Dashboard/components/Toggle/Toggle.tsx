@@ -10,11 +10,11 @@ interface IToggleProps {
 export const Toggle = ({ selectedToken, handleTokenChange }: IToggleProps) => (
   <StyledToggle>
     <ToggleButtonGroup value={selectedToken} exclusive onChange={handleTokenChange} aria-label='token selection'>
-      <ToggleButton value={ETokenType.DAI} aria-label='DAI token'>
+      <ToggleButton value={ETokenType.DAI} aria-label='DAI token' data-testid='toggle-DAI'>
         {ETokenType.DAI}
       </ToggleButton>
 
-      <ToggleButton value={ETokenType.USDC} aria-label='USDC token'>
+      <ToggleButton value={ETokenType.USDC} aria-label='USDC token' data-testid='toggle-USDC'>
         {ETokenType.USDC}
       </ToggleButton>
     </ToggleButtonGroup>
