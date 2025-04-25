@@ -4,7 +4,7 @@ import { fontSize, FOOTER_HEIGHT } from '~/utils';
 export const Footer = () => {
   return (
     <FooterContainer>
-      <h1>Pablo Acosta - Frontend Challenge</h1>
+      <h1>Pablo Acosta - 2025</h1>
     </FooterContainer>
   );
 };
